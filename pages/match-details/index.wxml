@@ -1,0 +1,54 @@
+<view class="page match-details-page">
+  <view class="details-intro">
+    <text class="eyebrow">MATCH NOTES</text>
+    <text class="page-title">记下这次比赛</text>
+    <text class="details-caption">只填你想留下的内容</text>
+  </view>
+
+  <view class="details-card card">
+    <text class="field-label">比赛形式</text>
+    <view class="option-grid">
+      <view class="option-card {{form.matchFormat === 'single' ? 'active' : ''}}" data-value="single" bindtap="chooseFormat">
+        <text>单轮比赛</text><text class="option-hint">一场完整对阵</text>
+      </view>
+      <view class="option-card {{form.matchFormat === 'tournament' ? 'active' : ''}}" data-value="tournament" bindtap="chooseFormat">
+        <text>多轮比赛</text><text class="option-hint">连续参加多场对阵</text>
+      </view>
+    </view>
+
+    <text class="field-label">比赛级别 <text class="optional">选填</text></text>
+    <picker mode="selector" range="{{matchLevels}}" bindchange="onLevelChange">
+      <view class="picker-shell">{{form.matchLevel || '不填写'}} <text>⌄</text></view>
+    </picker>
+
+    <block wx:if="{{form.matchFormat === 'single'}}">
+      <text class="field-label">结果 <text class="optional">选填</text></text>
+      <view class="option-grid">
+        <view class="option-card compact {{form.matchResult === 'win' ? 'active' : ''}}" data-value="win" bindtap="chooseResult">赢了</view>
+        <view class="option-card compact {{form.matchResult === 'loss' ? 'active' : ''}}" data-value="loss" bindtap="chooseResult">输了</view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <text class="field-label">比赛场数 <text class="optional">选填</text></text>
+      <picker mode="selector" range="{{matchCounts}}" bindchange="onCountChange">
+        <view class="picker-shell">{{form.matchCount ? (form.matchCount >= 10 ? '10场及以上' : form.matchCount + '场') : '不填写'}} <text>⌄</text></view>
+      </picker>
+
+      <text class="field-label">最终成绩 <text class="optional">选填</text></text>
+      <view class="chip-row">
+        <view wx:for="{{placementOptions}}" wx:key="*this" class="chip {{form.placement === item ? 'active' : ''}}" data-value="{{item}}" bindtap="choosePlacement">{{item}}</view>
+      </view>
+      <view class="input-shell small-gap">
+        <input value="{{form.placement}}" placeholder="也可以填写具体名次" bindinput="onPlacementInput" />
+      </view>
+    </block>
+
+    <text class="field-label">{{form.matchFormat === 'single' ? '比分' : '总赛果'}} <text class="optional">选填</text></text>
+    <view class="input-shell">
+      <input value="{{form.score}}" placeholder="{{form.matchFormat === 'single' ? '例如 4:6  6:3' : '例如 3胜1负'}}" bindinput="onScoreInput" />
+    </view>
+  </view>
+
+  <button class="primary-button save-button" bindtap="save">保存比赛结果</button>
+</view>

@@ -1,0 +1,15 @@
+.match-details-page { padding-bottom: 150rpx; }
+.details-caption { display: block; margin-top: 16rpx; color: #718078; font-size: 24rpx; }
+.details-card { margin-top: 36rpx; padding: 30rpx; }
+.field-label { display: block; margin: 32rpx 0 16rpx; font-size: 27rpx; font-weight: 740; }
+.field-label:first-child { margin-top: 0; }
+.optional { color: #92a098; font-size: 21rpx; font-weight: 500; }
+.option-grid { display: flex; gap: 14rpx; }
+.option-card { min-height: 108rpx; padding: 20rpx; flex: 1; display: flex; flex-direction: column; justify-content: center; border: 2rpx solid rgba(25,55,47,.1); border-radius: 22rpx; background: #fffdf8; font-size: 26rpx; font-weight: 700; }
+.option-card.compact { min-height: 82rpx; align-items: center; }
+.option-card.active { border-color: #19372f; background: #e2f76f; }
+.option-hint { margin-top: 7rpx; color: #718078; font-size: 20rpx; font-weight: 500; }
+.picker-shell,.input-shell { min-height: 88rpx; padding: 0 24rpx; display: flex; align-items: center; justify-content: space-between; border: 2rpx solid rgba(25,55,47,.08); border-radius: 22rpx; background: #fffdf8; color: #52645c; }
+.input-shell input { width: 100%; }
+.small-gap { margin-top: 14rpx; }
+.save-button { margin-top: 36rpx; }

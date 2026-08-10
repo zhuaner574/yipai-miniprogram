@@ -1,0 +1,103 @@
+<view class="page home">
+  <view class="home-header">
+    <view>
+      <text class="eyebrow">{{monthLabel}}</text>
+      <text class="greeting">嗨，{{profile.nickname || '球友'}}</text>
+    </view>
+    <view class="avatar-ball">
+      <image class="paipai paipai-avatar" src="/assets/paipai.png" mode="aspectFit"></image>
+    </view>
+  </view>
+
+  <view class="hero-card">
+    <view class="hero-top">
+      <text class="hero-caption">这个月，你已经打了</text>
+      <text class="hero-badge">每一拍都算数</text>
+    </view>
+    <view class="hero-number-row">
+      <text class="hero-number">{{stats.count}}</text>
+      <text class="hero-unit">次</text>
+    </view>
+    <view class="hero-stats">
+      <view class="hero-stat">
+        <text class="stat-value">{{stats.hours}}</text>
+        <text class="stat-name">小时</text>
+      </view>
+      <view class="hero-divider"></view>
+      <view class="hero-stat">
+        <text class="stat-value">{{stats.activeDays}}</text>
+        <text class="stat-name">个打球日</text>
+      </view>
+      <view class="hero-divider"></view>
+      <view class="hero-stat">
+        <text class="stat-value">{{profile.level}}</text>
+        <text class="stat-name">当前阶段</text>
+      </view>
+    </view>
+    <view class="court-line court-line-one"></view>
+    <view class="court-line court-line-two"></view>
+  </view>
+
+  <button class="record-entry" bindtap="goRecord">
+    <text class="fab-plus">＋</text>
+    <text>记录这一拍</text>
+  </button>
+
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">这个月的球场</text>
+      <text class="section-link" bindtap="goCalendar">完整日历 →</text>
+    </view>
+    <view class="calendar-card card">
+      <view class="calendar-meta">
+        <view>
+          <text class="calendar-month">{{monthLabel}}</text>
+          <text class="calendar-caption">每一次上场，都会在这里留下光</text>
+        </view>
+        <view class="calendar-legend">
+          <view class="legend-light"></view>
+          <text>练球日</text>
+        </view>
+      </view>
+      <view class="week-row">
+        <text wx:for="{{weekLabels}}" wx:key="*this">{{item}}</text>
+      </view>
+      <view class="calendar-grid">
+        <view
+          wx:for="{{calendar}}"
+          wx:key="date"
+          class="calendar-day {{item.monthRelation}} {{item.active ? 'active' : ''}} {{item.isToday ? 'today' : ''}}"
+        >
+          <view class="day-core">
+            <text>{{item.day}}</text>
+            <view wx:if="{{item.active}}" class="day-seam"></view>
+          </view>
+          <view wx:if="{{item.active}}" class="hit-dot"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">最近一拍</text>
+      <text wx:if="{{recent}}" class="section-link" bindtap="goHistory">全部记录 →</text>
+    </view>
+    <view wx:if="{{recent}}" class="recent-card card" bindtap="goHistory">
+      <view class="recent-type">{{recent.typeLabel}}</view>
+      <view class="recent-main">
+        <view class="recent-title-row">
+          <text class="recent-title">{{recent.displayDate}}的{{recent.typeLabel}}</text>
+          <text class="recent-duration">{{recent.durationLabel}}</text>
+        </view>
+        <text class="recent-diary">
+          {{recent.diary || '这次没有写日记，但它依然被好好记住了。'}}
+        </text>
+      </view>
+    </view>
+    <view wx:else class="empty-card card">
+      <text class="empty-title">这里还没有记录</text>
+      <text class="empty-desc">第一次可以很简单：选一种打球方式，再记下时长。</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,37 @@
+<view class="page feedback-page">
+  <view class="feedback-hero">
+    <image class="paipai paipai-feedback" src="/assets/paipai.png" mode="aspectFit"></image>
+    <text class="eyebrow">HELP ME GROW</text>
+    <text class="page-title">陪“一拍一拍”
+也成长一点</text>
+  </view>
+
+  <view class="section">
+    <text class="field-label">现在的“一拍一拍”对你有用吗？</text>
+    <view class="option-list">
+      <view
+        wx:for="{{usefulOptions}}"
+        wx:key="*this"
+        class="option-row {{form.useful === item ? 'active' : ''}}"
+        data-value="{{item}}"
+        bindtap="chooseUseful"
+      >
+        <text>{{item}}</text>
+        <text>{{form.useful === item ? '✓' : ''}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <text class="field-label">你希望接下来改善什么？ <text class="optional">选填</text></text>
+    <textarea
+      class="textarea-shell"
+      value="{{form.comment}}"
+      placeholder="直接写下你的建议"
+      maxlength="500"
+      bindinput="onCommentInput"
+    />
+  </view>
+
+  <button class="primary-button feedback-submit" loading="{{saving}}" bindtap="submit">送出反馈</button>
+</view>

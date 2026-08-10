@@ -1,0 +1,171 @@
+<view class="page profile-page">
+  <view class="profile-hero">
+    <view class="profile-avatar">
+      <image class="paipai paipai-profile" src="/assets/paipai.png" mode="aspectFit"></image>
+    </view>
+    <view class="profile-copy">
+      <text class="profile-name">{{profile.nickname}}</text>
+      <text class="profile-level">{{profile.level}} · {{profile.experience}}</text>
+    </view>
+    <button class="edit-button" bindtap="editProfile">编辑</button>
+  </view>
+
+  <view class="since-card card">
+    <text class="since-label">从 {{stats.since}} 开始</text>
+    <text class="since-title">你已经留下 {{stats.count}} 次网球记忆</text>
+    <view class="since-stats">
+      <view>
+        <text class="since-value">{{stats.duration}}</text>
+        <text class="since-name">累计时长</text>
+      </view>
+      <view>
+        <text class="since-value">{{stats.matches}}</text>
+        <text class="since-name">场比赛</text>
+      </view>
+      <view>
+        <text class="since-value">{{unlockedCount}}</text>
+        <text class="since-name">枚勋章</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">我的小目标</text>
+      <text class="section-link" bindtap="editGoals">修改</text>
+    </view>
+    <view class="chip-row">
+      <view wx:for="{{profile.goals}}" wx:key="*this" class="chip active">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">我的网球画像</text>
+      <text class="section-link" bindtap="editPortrait">
+        {{portraitProgress.answered ? '修改' : '去完善'}}
+      </text>
+    </view>
+    <view wx:if="{{portraitProgress.answered}}" class="profile-detail-card card">
+      <view wx:for="{{profileDetails}}" wx:key="label" class="profile-detail-row">
+        <text class="profile-detail-label">{{item.label}}</text>
+        <text class="profile-detail-value">{{item.value}}</text>
+      </view>
+      <view wx:if="{{profile.challenges.length}}" class="profile-challenges">
+        <text class="profile-detail-label">目前困扰</text>
+        <view class="chip-row compact">
+          <view wx:for="{{profile.challenges}}" wx:key="*this" class="mini-chip">{{item}}</view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="profile-detail-card profile-empty card" bindtap="editPortrait">
+      <text class="profile-empty-title">还没有填写画像</text>
+      <text class="profile-empty-desc">想答多少都可以</text>
+      <text class="profile-empty-action">去完善 →</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">比赛胜负</text>
+    </view>
+    <view class="match-stats-card card">
+      <view wx:if="{{matchStats.length}}" class="match-stats-list">
+        <view class="match-stats-head">
+          <text>级别</text>
+          <text>胜</text>
+          <text>负</text>
+          <text>胜率</text>
+        </view>
+        <view wx:for="{{matchStats}}" wx:key="level" class="match-stats-row">
+          <text class="match-level">{{item.level}}</text>
+          <text class="match-number win">{{item.wins}}</text>
+          <text class="match-number">{{item.losses}}</text>
+          <text class="match-rate">{{item.winRate}}</text>
+        </view>
+      </view>
+      <view wx:else class="match-stats-empty">
+        <text class="match-stats-empty-title">还没有胜负记录</text>
+        <text class="match-stats-empty-desc">记录比赛结果后会自动统计</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <view>
+        <text class="section-title badge-section-title">长期成就</text>
+        <text class="badge-section-note">点亮后会一直留在这里</text>
+      </view>
+      <view class="badge-header-actions">
+        <text class="section-link">{{achievementUnlockedCount}} / {{achievementTotal}}</text>
+        <text class="section-more" data-section="achievement" bindtap="goBadges">更多 ›</text>
+      </view>
+    </view>
+    <view class="badge-grid">
+      <view wx:for="{{achievementBadges}}" wx:key="id" class="badge-card {{item.unlocked ? 'unlocked' : 'locked'}}">
+        <text class="badge-icon">{{item.unlocked ? item.icon : '？'}}</text>
+        <text class="badge-name">{{item.unlocked || !item.hidden ? item.name : '隐藏勋章'}}</text>
+        <text class="badge-desc">{{item.unlocked || !item.hidden ? item.description : '某一天，它会悄悄出现'}}</text>
+        <text wx:if="{{!item.unlocked && !item.hidden}}" class="badge-progress-text">{{item.progress.text}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section monthly-badge-section">
+    <view class="section-header">
+      <view>
+        <text class="section-title badge-section-title">本月挑战</text>
+        <text class="badge-section-note">{{monthlyBadgeLabel}} 每月重新开始</text>
+      </view>
+      <view class="badge-header-actions">
+        <text class="section-link">{{monthlyUnlockedCount}} / {{monthlyTotal}}</text>
+        <text class="section-more" data-section="monthly" bindtap="goBadges">更多 ›</text>
+      </view>
+    </view>
+    <view class="monthly-badge-list">
+      <view wx:for="{{monthlyBadges}}" wx:key="id" class="monthly-badge-card card {{item.unlocked ? 'unlocked' : ''}}">
+        <view class="monthly-badge-top">
+          <text class="monthly-badge-icon">{{item.icon}}</text>
+          <view class="monthly-badge-copy">
+            <text class="badge-name">{{item.name}}</text>
+            <text class="badge-desc">{{item.description}}</text>
+          </view>
+          <text class="monthly-badge-state">{{item.unlocked ? '已点亮' : item.progress.text}}</text>
+        </view>
+        <view class="monthly-progress-track">
+          <view class="monthly-progress-fill" style="width: {{item.progress.percent}}%;"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section settings-card card">
+    <view class="setting-row" bindtap="goFeedback">
+      <view>
+        <text class="setting-title">帮一拍一拍变得更好</text>
+        <text class="setting-desc">告诉我哪里好用、哪里不对劲</text>
+      </view>
+      <text>›</text>
+    </view>
+    <view class="setting-divider"></view>
+    <view class="setting-row" bindtap="goPrivacy">
+      <view>
+        <text class="setting-title">数据与隐私说明</text>
+        <text class="setting-desc">了解信息如何保存和删除</text>
+      </view>
+      <text>›</text>
+    </view>
+    <view class="setting-divider"></view>
+    <view class="setting-row">
+      <view>
+        <text class="setting-title">数据保存</text>
+        <text class="setting-desc">{{cloudEnabled ? '已连接微信云端' : '当前保存在这台设备'}}</text>
+      </view>
+      <text class="status-dot {{cloudEnabled ? 'online' : ''}}"></text>
+    </view>
+  </view>
+
+  <button class="danger-button" bindtap="clearData">删除我的全部数据</button>
+  <text class="version">一拍一拍 MVP · 每一拍，我都在</text>
+</view>

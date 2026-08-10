@@ -1,0 +1,34 @@
+<view class="page privacy-page">
+  <text class="eyebrow">DATA AND PRIVACY</text>
+  <text class="page-title">你的记录
+只属于你</text>
+
+  <view class="privacy-card card">
+    <text class="privacy-title">我们保存什么</text>
+    <text class="privacy-copy">你主动填写的昵称和网球画像</text>
+    <text class="privacy-copy">训练与比赛记录</text>
+    <text class="privacy-copy">心情 困扰和日记</text>
+    <text class="privacy-copy">你提交的产品反馈</text>
+  </view>
+
+  <view class="privacy-card card">
+    <text class="privacy-title">为什么保存</text>
+    <text class="privacy-body">这些内容用于生成个人日历 统计 成长记录 勋章和鼓励回应</text>
+    <text class="privacy-body">一拍一拍不会申请手机号 精确位置 通讯录 相册 麦克风或摄像头权限</text>
+  </view>
+
+  <view class="privacy-card card">
+    <text class="privacy-title">如何保护</text>
+    <text class="privacy-body">数据保存在微信云开发环境</text>
+    <text class="privacy-body">不同微信账号的数据相互隔离</text>
+    <text class="privacy-body">记录不会公开展示给其他用户</text>
+  </view>
+
+  <view class="privacy-card card">
+    <text class="privacy-title">你可以随时管理</text>
+    <text class="privacy-body">你可以修改或删除单条记录</text>
+    <text class="privacy-body">也可以在我的页面删除该账号的全部数据</text>
+  </view>
+
+  <text class="privacy-contact">隐私相关问题请通过小程序内的反馈入口联系开发者</text>
+</view>

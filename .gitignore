@@ -1,0 +1,8 @@
+.DS_Store
+**/.DS_Store
+project.private.config.json
+node_modules/
+*.log
+*.docx
+generate_portfolio*.py
+docs/assets/

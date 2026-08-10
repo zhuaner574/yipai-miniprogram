@@ -1,0 +1,250 @@
+.calendar-page {
+  background:
+    radial-gradient(circle at 96% 2%, rgba(226, 247, 111, 0.4), transparent 22%),
+    #f7f5ec;
+}
+
+.month-switcher {
+  margin: 34rpx 0 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40rpx;
+  font-size: 30rpx;
+  font-weight: 760;
+}
+
+.month-switcher button {
+  width: 64rpx;
+  height: 64rpx;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fffdf8;
+  color: #19372f;
+  font-size: 38rpx;
+  line-height: 1;
+}
+
+.calendar-shell {
+  padding: 26rpx 20rpx 30rpx;
+}
+
+.month-summary {
+  min-height: 130rpx;
+  padding: 24rpx 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 72rpx;
+  border-radius: 26rpx;
+  background: #19372f;
+  color: #ffffff;
+}
+
+.month-summary > view {
+  width: 150rpx;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.summary-value {
+  color: #e2f76f;
+  font-size: 40rpx;
+  font-weight: 800;
+}
+
+.summary-unit {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 20rpx;
+  white-space: nowrap;
+}
+
+.week-row,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.week-row {
+  margin: 28rpx 0 12rpx;
+  color: #859189;
+  font-size: 21rpx;
+  text-align: center;
+}
+
+.calendar-cell {
+  position: relative;
+  height: 82rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #40554c;
+  font-size: 25rpx;
+}
+
+.calendar-cell .day-core {
+  position: relative;
+  z-index: 1;
+  width: 68rpx;
+  height: 68rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.calendar-cell.previous .day-core {
+  background: rgba(25, 55, 47, 0.035);
+  color: #b8bfbb;
+  box-shadow: inset 0 -4rpx 9rpx rgba(25, 55, 47, 0.035);
+}
+
+.calendar-cell.next .day-core {
+  color: #d4d9d6;
+}
+
+.calendar-cell.active .day-core {
+  background:
+    radial-gradient(circle at 34% 28%, #f5ffa8 0, #e2f76f 45%, #cfe953 100%);
+  color: #19372f;
+  font-weight: 800;
+  box-shadow:
+    0 0 0 6rpx rgba(226, 247, 111, 0.19),
+    0 10rpx 20rpx rgba(122, 145, 35, 0.18),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.72);
+}
+
+.calendar-cell.today .day-core {
+  box-shadow:
+    0 0 0 4rpx #fffdf8,
+    0 0 0 7rpx #aeb7b2;
+}
+
+.calendar-cell .day-seam {
+  position: absolute;
+  width: 50rpx;
+  height: 76rpx;
+  right: -38rpx;
+  top: -9rpx;
+  border: 2rpx solid rgba(25, 55, 47, 0.2);
+  border-radius: 50%;
+}
+
+.calendar-cell.selected .day-core {
+  box-shadow:
+    0 0 0 4rpx #fffdf8,
+    0 0 0 7rpx #19372f,
+    0 10rpx 20rpx rgba(25, 55, 47, 0.15);
+}
+
+.calendar-cell.today.selected .day-core {
+  box-shadow:
+    0 0 0 4rpx #fffdf8,
+    0 0 0 7rpx #aeb7b2,
+    0 8rpx 16rpx rgba(25, 55, 47, 0.1);
+}
+
+.count-mark {
+  position: absolute;
+  top: 1rpx;
+  right: 1rpx;
+  width: 27rpx;
+  height: 27rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #ffd8b6;
+  font-size: 16rpx;
+}
+
+.selected-section {
+  min-height: 260rpx;
+}
+
+.day-list {
+  margin-top: 18rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.day-session {
+  padding: 24rpx;
+  display: flex;
+  gap: 18rpx;
+}
+
+.session-dot {
+  width: 18rpx;
+  height: 18rpx;
+  margin-top: 9rpx;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #e2f76f;
+  box-shadow: 0 0 0 6rpx rgba(226, 247, 111, 0.25);
+}
+
+.day-mood {
+  width: 68rpx;
+  height: 68rpx;
+  margin-top: -4rpx;
+  flex: 0 0 auto;
+}
+
+.day-main {
+  flex: 1;
+}
+
+.day-title-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.day-title {
+  font-weight: 720;
+}
+
+.day-duration {
+  color: #7b8982;
+  font-size: 22rpx;
+}
+
+.day-diary {
+  display: block;
+  margin-top: 9rpx;
+  color: #6e7d75;
+  font-size: 23rpx;
+  line-height: 1.5;
+}
+
+.no-session,
+.calendar-tip {
+  margin-top: 18rpx;
+  padding: 30rpx;
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.52);
+  color: #7a8881;
+  font-size: 24rpx;
+}
+
+.no-session button {
+  margin: 18rpx 0 0;
+  padding: 0;
+  background: transparent;
+  color: #19372f;
+  font-size: 24rpx;
+  font-weight: 700;
+  text-align: left;
+}
+
+.calendar-add {
+  margin-top: 34rpx;
+}

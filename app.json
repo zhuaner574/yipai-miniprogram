@@ -1,0 +1,47 @@
+{
+  "pages": [
+    "pages/onboarding/index",
+    "pages/home/index",
+    "pages/record/index",
+    "pages/match-details/index",
+    "pages/calendar/index",
+    "pages/history/index",
+    "pages/profile/index",
+    "pages/badges/index",
+    "pages/feedback/index",
+    "pages/privacy/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F7F5EC",
+    "navigationBarTitleText": "一拍一拍",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F7F5EC"
+  },
+  "tabBar": {
+    "color": "#8B978F",
+    "selectedColor": "#18392F",
+    "backgroundColor": "#FFFDF8",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/calendar/index",
+        "text": "日历"
+      },
+      {
+        "pagePath": "pages/history/index",
+        "text": "成长"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

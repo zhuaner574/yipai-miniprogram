@@ -1,0 +1,178 @@
+<view class="page record-page">
+  <view class="record-intro">
+    <text class="eyebrow">TODAY'S TENNIS</text>
+    <text class="page-title">今天这一拍
+是什么样的</text>
+  </view>
+
+  <view class="section">
+    <text class="field-label">打球方式</text>
+    <view class="type-grid">
+      <view
+        wx:for="{{types}}"
+        wx:key="id"
+        class="type-card {{form.type === item.id ? 'active' : ''}}"
+        data-value="{{item.id}}"
+        bindtap="chooseType"
+      >
+        <text class="type-icon">{{item.icon}}</text>
+        <text class="type-label">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <text class="field-label">起始日期和时间</text>
+    <view class="time-panel">
+      <view class="time-row">
+        <picker class="time-picker" mode="date" value="{{form.date}}" bindchange="onDateChange">
+          <view class="time-control">
+            <text class="time-control-label">开始日期</text>
+            <text class="time-control-value">{{form.date}}</text>
+          </view>
+        </picker>
+        <view class="time-divider"></view>
+        <picker class="time-picker" mode="time" value="{{form.startTime}}" bindchange="onTimeChange">
+          <view class="time-control">
+            <text class="time-control-label">开始时间</text>
+            <text class="time-control-value">{{form.startTime}}</text>
+          </view>
+        </picker>
+      </view>
+      <view class="time-separator"></view>
+      <picker
+        mode="multiSelector"
+        range="{{durationColumns}}"
+        value="{{durationPickerValue}}"
+        bindchange="onDurationChange"
+      >
+        <view class="duration-control">
+          <view>
+            <text class="time-control-label">持续时间</text>
+          </view>
+          <view class="duration-value-row">
+            <text class="duration-value-text">{{durationLabel}}</text>
+            <text class="picker-arrow">⌄</text>
+          </view>
+        </view>
+      </picker>
+      <view class="end-time-strip">
+        <text class="end-time-dot"></text>
+        <text>预计 {{endTimeLabel}} 结束</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{form.type === 'match'}}" class="match-panel">
+    <view class="match-entry-copy">
+      <text class="match-title">比赛结果</text>
+      <text class="match-entry-hint">选填</text>
+    </view>
+    <view class="match-entry" bindtap="goMatchDetails">
+      <text class="match-entry-summary">{{matchDetailsSummary}}</text>
+      <text class="match-entry-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <text class="field-label">离开球场时，你是什么心情？</text>
+    <scroll-view scroll-x class="mood-scroll" enable-flex>
+      <view class="mood-row">
+        <view
+          wx:for="{{moods}}"
+          wx:key="id"
+          class="mood-card {{form.mood === item.id ? 'active' : ''}}"
+          data-value="{{item.id}}"
+          bindtap="chooseMood"
+        >
+          <text class="mood-icon">{{item.icon}}</text>
+          <text class="mood-label">{{item.label}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view wx:if="{{form.mood === 'frustrated' || form.mood === 'tired'}}" class="issue-panel">
+    <text class="field-label no-top">最让你难受的是？ <text class="optional">选填</text></text>
+    <view class="chip-row">
+      <view
+        wx:for="{{issueOptions}}"
+        wx:key="label"
+        class="chip {{item.selected ? 'active' : ''}}"
+        data-value="{{item.label}}"
+        bindtap="chooseIssue"
+      >{{item.label}}</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <text class="field-label">给今天留几句话吧 <text class="optional">选填</text></text>
+    <view wx:if="{{otherIssueSelected}}" class="diary-guide">
+      <text>还有别的事让你难受</text>
+      <text>可以在这里说说发生了什么</text>
+    </view>
+    <textarea
+      class="textarea-shell"
+      value="{{form.diary}}"
+      placeholder="今天哪一拍让你印象最深？也可以只写一句心情。"
+      maxlength="500"
+      bindinput="onDiaryInput"
+    />
+    <text class="field-hint">不需要写得完整，真实就很好。</text>
+  </view>
+
+  <button class="primary-button submit" loading="{{saving}}" bindtap="submit">
+    {{editMode ? '保存修改' : '保存这一拍'}}
+  </button>
+
+  <view wx:if="{{badgeCelebration}}" class="badge-celebration-overlay">
+    <view class="badge-celebration-card">
+      <text class="badge-spark badge-spark-one">✦</text>
+      <text class="badge-spark badge-spark-two">✦</text>
+      <text class="badge-spark badge-spark-three">·</text>
+      <view class="badge-glow"></view>
+      <text class="badge-unlock-label">新勋章点亮</text>
+      <view class="badge-unlock-icon">{{badgeCelebration.featured.icon}}</view>
+      <text class="badge-unlock-group">{{badgeCelebration.featured.groupLabel}}</text>
+      <text class="badge-unlock-name">{{badgeCelebration.featured.name}}</text>
+      <text class="badge-unlock-desc">{{badgeCelebration.featured.description}}</text>
+      <view wx:if="{{badgeCelebration.extra.length}}" class="badge-extra-list">
+        <text class="badge-extra-label">还有 {{badgeCelebration.extra.length}} 枚一起点亮</text>
+        <view class="badge-extra-row">
+          <view wx:for="{{badgeCelebration.extra}}" wx:key="id" class="badge-extra-chip">
+            <text>{{item.icon}}</text>
+            <text>{{item.name}}</text>
+          </view>
+        </view>
+      </view>
+      <button class="badge-accept-button" bindtap="acceptBadge">收下勋章</button>
+    </view>
+  </view>
+
+  <view wx:if="{{result}}" class="result-overlay">
+    <view class="result-sheet">
+      <view class="paipai-stage">
+        <text class="sparkle sparkle-one">✦</text>
+        <text class="sparkle sparkle-two">✦</text>
+        <text class="sparkle sparkle-three">·</text>
+        <image class="paipai paipai-celebrate paipai-reply" src="/assets/paipai.png" mode="aspectFit"></image>
+      </view>
+      <text class="saved-label">{{result.savedLabel}}</text>
+      <text class="reply-title">{{result.title}}</text>
+      <text class="reply-message">{{result.message}}</text>
+      <view wx:if="{{result.nextStep}}" class="next-step">
+        <text class="next-label">{{result.nextLabel || '留给下一次'}}</text>
+        <text class="next-text">{{result.nextStep}}</text>
+      </view>
+      <view class="helpful-row">
+        <text>这句话有接住你吗？</text>
+        <view class="helpful-actions">
+          <button data-value="yes" bindtap="markHelpful">有一点</button>
+          <button data-value="no" bindtap="markHelpful">不太有</button>
+        </view>
+      </view>
+      <button class="primary-button" bindtap="backHome">回到首页</button>
+      <button class="sheet-link" bindtap="goHistory">看看我的成长记录</button>
+    </view>
+  </view>
+</view>

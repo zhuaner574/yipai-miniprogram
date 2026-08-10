@@ -1,0 +1,167 @@
+.badges-scroll {
+  height: 100vh;
+  background: #f7f5ec;
+}
+
+.badges-page {
+  background:
+    radial-gradient(circle at 96% 2%, rgba(226, 247, 111, 0.35), transparent 22%),
+    #f7f5ec;
+}
+
+.badge-section-anchor {
+  scroll-margin-top: 24rpx;
+}
+
+.all-section-header {
+  margin: 48rpx 0 20rpx;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.all-section-title,
+.all-section-note {
+  display: block;
+}
+
+.all-section-title {
+  font-size: 34rpx;
+  font-weight: 780;
+}
+
+.all-section-note,
+.all-section-count {
+  margin-top: 7rpx;
+  color: #7d8b83;
+  font-size: 21rpx;
+}
+
+.badge-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+}
+
+.badge-card {
+  min-height: 220rpx;
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  border-radius: 28rpx;
+}
+
+.badge-card.unlocked {
+  background: #fffdf8;
+  box-shadow: 0 12rpx 26rpx rgba(34, 54, 46, 0.05);
+}
+
+.badge-card.locked {
+  background: rgba(255, 255, 255, 0.42);
+  color: #9ba49f;
+}
+
+.badge-icon {
+  font-size: 48rpx;
+}
+
+.badge-name,
+.badge-desc {
+  display: block;
+}
+
+.badge-name {
+  margin-top: 18rpx;
+  font-size: 26rpx;
+  font-weight: 740;
+}
+
+.badge-desc {
+  margin-top: 7rpx;
+  color: #7a8881;
+  font-size: 21rpx;
+  line-height: 1.45;
+}
+
+.badge-progress-text {
+  margin-top: auto;
+  padding-top: 16rpx;
+  color: #73827a;
+  font-size: 20rpx;
+  font-weight: 680;
+}
+
+.all-monthly-section {
+  margin: 54rpx -4rpx 0;
+  padding: 4rpx 24rpx 30rpx;
+  border-radius: 34rpx;
+  background: #edf4d7;
+}
+
+.monthly-badge-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.monthly-badge-card {
+  padding: 22rpx 24rpx;
+  border-radius: 24rpx;
+  box-shadow: none;
+}
+
+.monthly-badge-card.unlocked {
+  background: #fbffd9;
+  border-color: rgba(126, 149, 37, 0.3);
+}
+
+.monthly-badge-top {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+}
+
+.monthly-badge-icon {
+  width: 52rpx;
+  flex: 0 0 auto;
+  font-size: 38rpx;
+  text-align: center;
+}
+
+.monthly-badge-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.monthly-badge-copy .badge-name,
+.monthly-badge-copy .badge-desc {
+  margin-top: 0;
+}
+
+.monthly-badge-copy .badge-desc {
+  margin-top: 4rpx;
+}
+
+.monthly-badge-state {
+  color: #62736a;
+  font-size: 19rpx;
+  font-weight: 700;
+}
+
+.monthly-badge-card.unlocked .monthly-badge-state {
+  color: #597016;
+}
+
+.monthly-progress-track {
+  height: 8rpx;
+  margin: 18rpx 0 2rpx 70rpx;
+  overflow: hidden;
+  border-radius: 999rpx;
+  background: rgba(25, 55, 47, 0.09);
+}
+
+.monthly-progress-fill {
+  height: 100%;
+  border-radius: 999rpx;
+  background: #b9d938;
+}

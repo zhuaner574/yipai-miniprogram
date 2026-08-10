@@ -1,0 +1,9 @@
+{
+  "name": "yipai-miniprogram",
+  "version": "0.1.0",
+  "private": true,
+  "description": "一拍一拍微信小程序 MVP",
+  "scripts": {
+    "test": "node tests/core.test.js && node tests/flow.test.js && node tests/preflight.test.js"
+  }
+}

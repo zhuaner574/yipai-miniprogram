@@ -1,0 +1,377 @@
+.home {
+  background:
+    radial-gradient(circle at 100% 2%, rgba(255, 213, 177, 0.38), transparent 24%),
+    #f7f5ec;
+}
+
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.greeting {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 48rpx;
+  font-weight: 800;
+}
+
+.avatar-ball {
+  width: 88rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28rpx;
+  background: #fffdf8;
+}
+
+.paipai-avatar {
+  position: relative;
+  left: -4rpx;
+  width: 74rpx;
+  height: 74rpx;
+}
+
+.hero-card {
+  position: relative;
+  min-height: 316rpx;
+  margin-top: 24rpx;
+  padding: 28rpx 32rpx;
+  overflow: hidden;
+  border-radius: 38rpx;
+  background: #19372f;
+  color: #ffffff;
+  box-shadow: 0 20rpx 44rpx rgba(25, 55, 47, 0.16);
+}
+
+.hero-top,
+.hero-number-row,
+.hero-stats {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero-caption {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 25rpx;
+}
+
+.hero-badge {
+  padding: 10rpx 16rpx;
+  border-radius: 999rpx;
+  background: #e2f76f;
+  color: #19372f;
+  font-size: 20rpx;
+  font-weight: 700;
+}
+
+.hero-number-row {
+  margin-top: 12rpx;
+  display: flex;
+  align-items: baseline;
+}
+
+.hero-number {
+  font-size: 108rpx;
+  line-height: 1;
+  font-weight: 850;
+  letter-spacing: -7rpx;
+}
+
+.hero-unit {
+  margin-left: 14rpx;
+  color: #e2f76f;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.hero-stats {
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+}
+
+.hero-stat {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.stat-value {
+  font-size: 32rpx;
+  font-weight: 760;
+}
+
+.stat-name {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 21rpx;
+  white-space: nowrap;
+}
+
+.hero-divider {
+  width: 2rpx;
+  height: 54rpx;
+  margin-right: 24rpx;
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.court-line {
+  position: absolute;
+  border: 3rpx solid rgba(226, 247, 111, 0.13);
+  transform: rotate(-18deg);
+}
+
+.court-line-one {
+  width: 350rpx;
+  height: 220rpx;
+  right: -130rpx;
+  bottom: -80rpx;
+}
+
+.court-line-two {
+  width: 260rpx;
+  height: 160rpx;
+  right: -36rpx;
+  bottom: -72rpx;
+}
+
+.calendar-card {
+  padding: 24rpx 22rpx 18rpx;
+  border: 1rpx solid rgba(25, 55, 47, 0.055);
+  background:
+    radial-gradient(circle at 88% 8%, rgba(226, 247, 111, 0.2), transparent 24%),
+    #fffdf8;
+  box-shadow: 0 16rpx 42rpx rgba(25, 55, 47, 0.07);
+}
+
+.calendar-meta {
+  margin: 0 8rpx 16rpx;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.calendar-month,
+.calendar-caption {
+  display: block;
+}
+
+.calendar-month {
+  color: #19372f;
+  font-size: 28rpx;
+  font-weight: 800;
+  letter-spacing: -0.5rpx;
+}
+
+.calendar-caption {
+  margin-top: 7rpx;
+  color: #89958f;
+  font-size: 19rpx;
+}
+
+.calendar-legend {
+  padding: 8rpx 12rpx;
+  display: flex;
+  align-items: center;
+  gap: 7rpx;
+  border: 1rpx solid rgba(25, 55, 47, 0.06);
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.72);
+  color: #75847c;
+  font-size: 18rpx;
+}
+
+.legend-light {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #e2f76f;
+  box-shadow:
+    0 0 0 4rpx rgba(226, 247, 111, 0.22),
+    0 3rpx 9rpx rgba(124, 149, 31, 0.24);
+}
+
+.week-row,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.week-row {
+  margin-bottom: 10rpx;
+  color: #8b978f;
+  font-size: 19rpx;
+  font-weight: 650;
+  text-align: center;
+}
+
+.calendar-day {
+  position: relative;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #455950;
+  font-size: 23rpx;
+}
+
+.day-core {
+  position: relative;
+  z-index: 1;
+  width: 54rpx;
+  height: 54rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.calendar-day.previous .day-core {
+  background: rgba(25, 55, 47, 0.035);
+  color: #b4bcb7;
+  box-shadow: inset 0 -4rpx 9rpx rgba(25, 55, 47, 0.035);
+}
+
+.calendar-day.next .day-core {
+  color: #d2d7d4;
+}
+
+.calendar-day.today .day-core {
+  box-shadow: inset 0 0 0 2rpx rgba(25, 55, 47, 0.45);
+  font-weight: 800;
+}
+
+.calendar-day.active .day-core {
+  background:
+    radial-gradient(circle at 34% 28%, #f5ffa8 0, #e2f76f 45%, #cfe953 100%);
+  color: #19372f;
+  font-weight: 800;
+  box-shadow:
+    0 0 0 5rpx rgba(226, 247, 111, 0.18),
+    0 9rpx 18rpx rgba(122, 145, 35, 0.18),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.7);
+}
+
+.day-seam {
+  position: absolute;
+  width: 42rpx;
+  height: 62rpx;
+  right: -31rpx;
+  top: -8rpx;
+  border: 2rpx solid rgba(25, 55, 47, 0.2);
+  border-radius: 50%;
+}
+
+.hit-dot {
+  position: absolute;
+  z-index: 2;
+  bottom: 1rpx;
+  width: 7rpx;
+  height: 7rpx;
+  border-radius: 50%;
+  background: #19372f;
+  box-shadow: 0 0 0 3rpx #fffdf8;
+}
+
+.recent-card {
+  padding: 26rpx;
+  display: flex;
+  gap: 22rpx;
+}
+
+.recent-type {
+  width: 82rpx;
+  height: 82rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24rpx;
+  background: #e2f76f;
+  font-size: 23rpx;
+  font-weight: 760;
+}
+
+.recent-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.recent-title-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.recent-title {
+  font-size: 28rpx;
+  font-weight: 740;
+}
+
+.recent-duration {
+  color: #78877f;
+  font-size: 22rpx;
+  white-space: nowrap;
+}
+
+.recent-diary {
+  display: -webkit-box;
+  margin-top: 12rpx;
+  overflow: hidden;
+  color: #6e7d75;
+  font-size: 24rpx;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.empty-card {
+  padding: 42rpx 32rpx;
+}
+
+.empty-title,
+.empty-desc {
+  display: block;
+}
+
+.empty-title {
+  font-size: 28rpx;
+  font-weight: 720;
+}
+
+.empty-desc {
+  margin-top: 10rpx;
+  color: #7b8982;
+  font-size: 24rpx;
+}
+
+.record-entry {
+  width: 100%;
+  height: 76rpx;
+  margin: 20rpx 0 0;
+  padding: 0 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  border-radius: 26rpx;
+  background: #19372f;
+  color: #ffffff;
+  box-shadow: 0 12rpx 28rpx rgba(25, 55, 47, 0.16);
+  font-size: 26rpx;
+  font-weight: 720;
+}
+
+.fab-plus {
+  color: #e2f76f;
+  font-size: 38rpx;
+}

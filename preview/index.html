@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>一拍一拍 · MVP视觉预览</title>
+  <style>
+    :root {
+      --ink: #19372f;
+      --muted: #718078;
+      --paper: #f7f5ec;
+      --card: #fffdf8;
+      --lime: #e2f76f;
+      --mint: #dceee8;
+      --peach: #fff2e5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #eae8df;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+    .preview-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(25, 55, 47, .96);
+      color: white;
+    }
+    .preview-toolbar strong { letter-spacing: .04em; }
+    .tabs { display: flex; gap: 8px; }
+    .tabs button {
+      padding: 8px 13px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      color: white;
+      cursor: pointer;
+    }
+    .tabs button.active { background: var(--lime); color: var(--ink); font-weight: 700; }
+    .stage {
+      min-height: calc(100vh - 60px);
+      padding: 24px;
+      display: grid;
+      place-items: center;
+    }
+    .phone {
+      position: relative;
+      width: 390px;
+      height: 844px;
+      overflow: hidden;
+      border: 10px solid #17352d;
+      border-radius: 48px;
+      background: var(--paper);
+      box-shadow: 0 28px 80px rgba(25,55,47,.23);
+    }
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: none;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(226,247,111,.28), transparent 22%),
+        var(--paper);
+    }
+    .screen.active { display: block; }
+    .status {
+      height: 46px;
+      padding: 12px 24px 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .content {
+      height: calc(100% - 46px);
+      padding: 14px 20px 120px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: none;
+    }
+    .content::-webkit-scrollbar { display:none; }
+    .eyebrow { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .15em; }
+    h1 { margin: 7px 0 0; font-size: 30px; line-height: 1.18; letter-spacing: -.04em; }
+    .header { display: flex; align-items: center; justify-content: space-between; }
+    .avatar { width: 46px; height: 46px; display:grid; place-items:center; border-radius: 16px; background: var(--card); }
+    .ball {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      overflow: hidden;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: inset -4px -5px rgba(87,110,29,.13);
+    }
+    .ball:before,.ball:after {
+      content:"";
+      position:absolute;
+      top:-6px;
+      width:30px;
+      height:44px;
+      border:2px solid rgba(255,255,255,.9);
+      border-radius:50%;
+    }
+    .ball:before { left:-23px; }
+    .ball:after { right:-23px; }
+    .hero {
+      position: relative;
+      margin-top: 18px;
+      padding: 22px;
+      overflow: hidden;
+      border-radius: 25px;
+      background: var(--ink);
+      color: white;
+      box-shadow: 0 14px 30px rgba(25,55,47,.16);
+    }
+    .hero-top { display:flex; justify-content:space-between; align-items:center; color:rgba(255,255,255,.65); font-size:12px; }
+    .pill { padding: 6px 9px; border-radius: 999px; background: var(--lime); color:var(--ink); font-size:10px; font-weight:700; }
+    .big-number { margin-top: 6px; font-size: 78px; line-height:1; font-weight:850; letter-spacing:-.08em; }
+    .big-number small { color:var(--lime); font-size:18px; letter-spacing:0; }
+    .stats { margin-top:20px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .stats strong,.stats span { display:block; }
+    .stats strong { font-size:17px; }
+    .stats span { margin-top:3px; color:rgba(255,255,255,.48); font-size:10px; }
+    .companion {
+      margin-top: 14px;
+      padding: 17px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-radius: 21px;
+      background: var(--mint);
+    }
+    .companion .ball { width:48px; height:48px; flex:0 0 auto; }
+    .companion small,.companion p { display:block; margin:0; }
+    .companion small { font-size:10px; font-weight:800; }
+    .companion p { margin-top:5px; font-size:13px; line-height:1.55; }
+    .section-title { margin:23px 0 11px; display:flex; justify-content:space-between; font-size:16px; font-weight:800; }
+    .section-title span { color:var(--muted); font-size:11px; font-weight:500; }
+    .calendar {
+      padding:15px 14px 14px;
+      border:1px solid rgba(25,55,47,.05);
+      border-radius:20px;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(226,247,111,.19), transparent 24%),
+        var(--card);
+      box-shadow:0 12px 28px rgba(25,55,47,.07);
+    }
+    .calendar-meta { margin:0 3px 13px; display:flex; align-items:flex-start; justify-content:space-between; }
+    .calendar-meta strong,.calendar-meta small { display:block; }
+    .calendar-meta strong { font-size:14px; }
+    .calendar-meta small { margin-top:3px; color:#8b978f; font-size:9px; }
+    .calendar-legend {
+      padding:5px 7px;
+      display:flex;
+      align-items:center;
+      gap:5px;
+      border:1px solid rgba(25,55,47,.06);
+      border-radius:999px;
+      background:rgba(255,255,255,.72);
+      color:#75847c;
+      font-size:9px;
+    }
+    .legend-light {
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--lime);
+      box-shadow:0 0 0 2px rgba(226,247,111,.22),0 2px 5px rgba(124,149,31,.22);
+    }
+    .week,.days { display:grid; grid-template-columns:repeat(7,1fr); text-align:center; }
+    .week { color:#929d97; font-size:9px; font-weight:650; }
+    .days { margin-top:6px; gap:3px 0; font-size:11px; }
+    .day {
+      position:relative;
+      width:29px;
+      height:29px;
+      margin:auto;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      border-radius:50%;
+      color:#455950;
+    }
+    .day.previous {
+      background:rgba(25,55,47,.035);
+      color:#b4bcb7;
+      box-shadow:inset 0 -2px 5px rgba(25,55,47,.04);
+    }
+    .day.next { color:#d2d7d4; }
+    .day.hit {
+      overflow:hidden;
+      background:radial-gradient(circle at 34% 28%,#f5ffa8 0,var(--lime) 46%,#cfe953 100%);
+      color:var(--ink);
+      font-weight:800;
+      box-shadow:0 0 0 3px rgba(226,247,111,.18),0 6px 11px rgba(122,145,35,.17);
+    }
+    .day.hit::before {
+      content:"";
+      position:absolute;
+      width:22px;
+      height:35px;
+      right:-14px;
+      top:-4px;
+      border:1px solid rgba(255,255,255,.86);
+      border-radius:50%;
+    }
+    .day.hit::after {
+      content:"";
+      position:absolute;
+      bottom:1px;
+      width:4px;
+      height:4px;
+      border:1px solid var(--card);
+      border-radius:50%;
+      background:var(--ink);
+    }
+    .bottom-nav {
+      position:absolute;
+      z-index:20;
+      left:0; right:0; bottom:0;
+      height:76px;
+      padding:10px 25px 20px;
+      display:flex;
+      justify-content:space-between;
+      background:rgba(255,253,248,.96);
+      border-top:1px solid rgba(25,55,47,.05);
+      font-size:11px;
+      color:#87928c;
+    }
+    .bottom-nav span.active { color:var(--ink); font-weight:800; }
+    .fab {
+      position:absolute;
+      z-index:21;
+      right:18px;
+      bottom:88px;
+      padding:14px 17px;
+      border-radius:999px;
+      background:var(--ink);
+      color:white;
+      font-size:12px;
+      font-weight:800;
+      box-shadow:0 10px 22px rgba(25,55,47,.22);
+    }
+    .brand { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:800; }
+    .mini-ball { width:16px; height:16px; border:2px solid var(--ink); border-radius:50%; background:var(--lime); }
+    .progress { margin-top:26px; display:flex; gap:6px; }
+    .progress i { width:22px; height:4px; border-radius:99px; background:rgba(25,55,47,.13); }
+    .progress i:first-child { width:42px; background:var(--ink); }
+    .welcome-copy { margin-top:32px; }
+    .welcome-copy h1 { font-size:36px; }
+    .welcome-copy p { color:var(--muted); line-height:1.65; font-size:14px; }
+    .label { margin:28px 0 10px; display:block; font-size:14px; font-weight:800; }
+    .input { width:100%; padding:16px; border:1px solid rgba(25,55,47,.08); border-radius:16px; background:var(--card); color:#9aa39e; font-size:14px; }
+    .welcome-card { margin-top:18px; padding:12px 18px 12px 4px; display:flex; gap:6px; align-items:center; border-radius:20px; background:var(--mint); }
+    .welcome-card strong,.welcome-card small { display:block; }
+    .welcome-card small { margin-top:5px; color:rgba(25,55,47,.68); line-height:1.4; }
+    .primary {
+      width:100%;
+      padding:17px;
+      border:0;
+      border-radius:18px;
+      background:var(--ink);
+      color:white;
+      font-size:14px;
+      font-weight:800;
+    }
+    .fixed-action { position:absolute; left:20px; right:20px; bottom:24px; }
+    .type-grid { margin-top:12px; display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+    .type { padding:15px 4px; text-align:center; border:1px solid rgba(25,55,47,.08); border-radius:16px; background:var(--card); font-size:11px; }
+    .type b { display:block; margin-bottom:6px; font-size:18px; }
+    .type.active { border-color:var(--ink); background:var(--lime); font-weight:800; }
+    .mood-row { display:flex; gap:8px; }
+    .mood { min-width:62px; padding:12px 5px; text-align:center; border-radius:15px; background:var(--card); font-size:10px; }
+    .mood b { display:block; margin-bottom:5px; font-size:20px; }
+    .mood.active { background:var(--lime); outline:1px solid var(--ink); }
+    textarea { width:100%; min-height:100px; resize:none; padding:15px; border:1px solid rgba(25,55,47,.08); border-radius:16px; background:var(--card); font:inherit; }
+    .result-screen { padding:72px 24px 30px; text-align:center; }
+    .result-screen .ball { width:64px; height:64px; margin:auto; }
+    .saved { margin-top:18px; color:var(--muted); font-size:12px; }
+    .result-screen h1 { margin-top:16px; }
+    .reply { margin:18px 0 0; text-align:left; color:#41584e; font-size:15px; line-height:1.75; }
+    .next { margin:20px 0; padding:17px; border-radius:18px; background:var(--lime); text-align:left; }
+    .next small,.next p { display:block; margin:0; }
+    .next small { font-size:10px; font-weight:800; }
+    .next p { margin-top:6px; font-size:13px; line-height:1.5; }
+    .mascot {
+      display:block;
+      object-fit:contain;
+      transform-origin:50% 82%;
+      animation:float 3.2s ease-in-out infinite;
+    }
+    .mascot.welcome { width:96px; height:92px; flex:0 0 auto; }
+    .mascot.avatar-mascot { width:42px; height:42px; }
+    .mascot.companion-mascot { width:84px; height:78px; margin:-14px 0 -12px -10px; flex:0 0 auto; }
+    .mascot.reply-mascot { width:150px; height:150px; margin:0 auto -4px; animation:pop .9s cubic-bezier(.34,1.56,.64,1) both,float 3.2s .9s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-5px) rotate(1deg)} }
+    @keyframes pop { 0%{opacity:0;transform:translateY(28px) scale(.72) rotate(-8deg)} 58%{opacity:1;transform:translateY(-7px) scale(1.08) rotate(4deg)} 100%{opacity:1;transform:none} }
+    .time-panel { margin-top:10px; overflow:hidden; border:1px solid rgba(25,55,47,.08); border-radius:19px; background:var(--card); }
+    .time-row { display:grid; grid-template-columns:1fr 1fr; }
+    .time-box { padding:14px 16px; }
+    .time-box:first-child { border-right:1px solid rgba(25,55,47,.08); }
+    .time-box small,.time-box strong { display:block; }
+    .time-box small,.duration-copy small { color:var(--muted); font-size:10px; }
+    .time-box strong { margin-top:5px; font-size:14px; }
+    .duration-select { padding:15px 16px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid rgba(25,55,47,.07); }
+    .duration-copy small,.duration-copy span { display:block; }
+    .duration-copy span { margin-top:4px; color:#9ba49f; font-size:9px; }
+    .duration-select strong { font-size:15px; }
+    .end-time { padding:9px 16px; background:#edf5f1; color:#61736a; font-size:10px; }
+    .optional-grid { margin-top:10px; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .optional-card { padding:13px; display:flex; justify-content:space-between; border-radius:14px; background:var(--card); font-size:12px; }
+    .optional-card.active { background:var(--lime); outline:1px solid var(--ink); font-weight:700; }
+    @media (max-width: 520px) {
+      .preview-toolbar { display:none; }
+      .stage { padding:0; display:block; }
+      .phone { width:100vw; height:100vh; border:0; border-radius:0; box-shadow:none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="preview-toolbar">
+    <strong>一拍一拍 · MVP视觉预览</strong>
+    <nav class="tabs">
+      <button data-screen="onboarding">新用户</button>
+      <button data-screen="profileinfo">可选画像</button>
+      <button class="active" data-screen="home">首页</button>
+      <button data-screen="record">记录</button>
+      <button data-screen="reply">回应</button>
+    </nav>
+  </header>
+  <main class="stage">
+    <section class="phone">
+      <article class="screen" id="onboarding">
+        <div class="status"><span>9:41</span><span>●●●</span></div>
+        <div class="content">
+          <div class="brand"><span class="mini-ball"></span>一拍一拍</div>
+          <div class="progress"><i></i><i></i><i></i></div>
+          <div class="welcome-copy">
+            <span class="eyebrow">嗨 球友 👋</span>
+            <h1>记下每一次上场</h1>
+            <p>看看自己打了多久</p>
+          </div>
+          <span class="label">我可以怎么称呼你</span>
+          <div class="input">比如 小卓</div>
+          <div class="welcome-card">
+            <img class="mascot welcome" src="../assets/paipai.png" alt="拍拍" />
+            <div><strong>你好 我是拍拍</strong><small>以后一起记下每次上场</small></div>
+          </div>
+        </div>
+        <div class="fixed-action"><button class="primary" data-screen="home">继续</button></div>
+      </article>
+
+      <article class="screen" id="profileinfo">
+        <div class="status"><span>9:41</span><span>●●●</span></div>
+        <div class="content">
+          <div class="brand"><span class="mini-ball"></span>一拍一拍</div>
+          <div class="progress"><i style="width:22px"></i><i style="width:22px"></i><i style="width:22px"></i><i style="width:42px;background:var(--ink)"></i></div>
+          <div class="welcome-copy" style="margin-top:24px">
+            <span class="eyebrow">再了解你一点</span>
+            <h1 style="font-size:30px">想答多少都可以</h1>
+            <p>之后随时能改</p>
+          </div>
+          <span class="label" style="margin-top:18px">你的持拍手</span>
+          <div class="optional-grid">
+            <div class="optional-card active"><span>右手持拍</span><span>✓</span></div>
+            <div class="optional-card"><span>左手持拍</span></div>
+          </div>
+          <span class="label" style="margin-top:18px">通常多久打一次球？</span>
+          <div class="optional-grid">
+            <div class="optional-card"><span>暂时不固定</span></div>
+            <div class="optional-card active"><span>每周2—3次</span><span>✓</span></div>
+          </div>
+          <span class="label" style="margin-top:18px">目前最困扰你的是什么？</span>
+          <div class="optional-grid">
+            <div class="optional-card"><span>发球</span></div>
+            <div class="optional-card active"><span>比赛紧张</span><span>✓</span></div>
+            <div class="optional-card active"><span>稳定性</span><span>✓</span></div>
+            <div class="optional-card"><span>不知道怎么练</span></div>
+          </div>
+          <button class="primary" style="margin-top:22px" data-screen="home">开启我的网球篇章</button>
+          <div style="margin-top:14px;text-align:center;color:var(--muted);font-size:11px">这些以后再说 先开始记录</div>
+        </div>
+      </article>
+
+      <article class="screen active" id="home">
+        <div class="status"><span>9:41</span><span>●●●</span></div>
+        <div class="content">
+          <div class="header">
+            <div><span class="eyebrow">2026年7月</span><h1>嗨，小卓</h1></div>
+            <div class="avatar"><img class="mascot avatar-mascot" src="../assets/paipai.png" alt="拍拍" /></div>
+          </div>
+          <div class="hero">
+            <div class="hero-top"><span>这个月 你已经打了</span><span class="pill">每一拍都算数</span></div>
+            <div class="big-number">4<small> 次</small></div>
+            <div class="stats">
+              <div><strong>5.5</strong><span>小时</span></div>
+              <div><strong>4</strong><span>个打球日</span></div>
+              <div><strong>1.5</strong><span>当前阶段</span></div>
+            </div>
+          </div>
+          <div class="companion">
+            <img class="mascot companion-mascot" src="../assets/paipai.png" alt="拍拍" />
+            <div><small>拍拍说</small><p>下次也来记一拍</p></div>
+          </div>
+          <div class="section-title">这个月的球场 <span>完整日历 →</span></div>
+          <div class="calendar">
+            <div class="calendar-meta">
+              <div><strong>2026年7月</strong><small>每一次上场，都会在这里留下光</small></div>
+              <div class="calendar-legend"><i class="legend-light"></i>练球日</div>
+            </div>
+            <div class="week"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>
+            <div class="days">
+              <span class="day previous">28</span><span class="day previous">29</span><span class="day previous">30</span><span class="day">1</span><span class="day">2</span><span class="day hit">3</span><span class="day">4</span>
+              <span class="day">5</span><span class="day">6</span><span class="day hit">7</span><span class="day">8</span><span class="day">9</span><span class="day">10</span><span class="day">11</span>
+              <span class="day">12</span><span class="day">13</span><span class="day">14</span><span class="day hit">15</span><span class="day">16</span><span class="day">17</span><span class="day">18</span>
+              <span class="day">19</span><span class="day">20</span><span class="day">21</span><span class="day">22</span><span class="day hit">23</span><span class="day">24</span><span class="day">25</span>
+              <span class="day">26</span><span class="day">27</span><span class="day">28</span><span class="day">29</span><span class="day">30</span><span class="day">31</span><span class="day next">1</span>
+              <span class="day next">2</span><span class="day next">3</span><span class="day next">4</span><span class="day next">5</span><span class="day next">6</span><span class="day next">7</span><span class="day next">8</span>
+            </div>
+          </div>
+        </div>
+        <div class="fab" data-screen="record">＋ 记录这一拍</div>
+        <nav class="bottom-nav"><span class="active">首页</span><span>日历</span><span>成长</span><span>我的</span></nav>
+      </article>
+
+      <article class="screen" id="record">
+        <div class="status"><span>9:41</span><span>●●●</span></div>
+        <div class="content">
+          <span class="eyebrow">TODAY'S TENNIS</span>
+          <h1>今天这一拍，<br />是什么样的？</h1>
+          <span class="label">打球方式</span>
+          <div class="type-grid">
+            <div class="type active"><b>↔</b>拉球</div>
+            <div class="type"><b>✦</b>学球</div>
+            <div class="type"><b>◉</b>发球机</div>
+            <div class="type"><b>🏁</b>比赛</div>
+          </div>
+          <span class="label">起始日期和时间</span>
+          <div class="time-panel">
+            <div class="time-row">
+              <div class="time-box"><small>开始日期</small><strong>2026-07-26</strong></div>
+              <div class="time-box"><small>开始时间</small><strong>19:10</strong></div>
+            </div>
+            <div class="duration-select">
+              <div class="duration-copy"><small>持续时间</small></div>
+              <strong>1小时25分钟 ⌄</strong>
+            </div>
+            <div class="end-time">●　预计 20:35 结束</div>
+          </div>
+          <span class="label">离开球场时，你是什么心情？</span>
+          <div class="mood-row">
+            <div class="mood"><b>☀️</b>很开心</div>
+            <div class="mood"><b>🌱</b>有进步</div>
+            <div class="mood"><b>🍃</b>平静</div>
+            <div class="mood active"><b>🌧️</b>沮丧</div>
+          </div>
+          <span class="label">给今天留几句话吧</span>
+          <textarea>关键分的时候太紧张了，最后两个球都没敢打。</textarea>
+          <button class="primary" style="margin-top:22px" data-screen="reply">保存这一拍</button>
+        </div>
+      </article>
+
+      <article class="screen" id="reply">
+        <div class="status"><span>9:41</span><span>●●●</span></div>
+        <div class="result-screen">
+          <img class="mascot reply-mascot" src="../assets/paipai.png" alt="拍拍" />
+          <div class="saved">这一拍收好了</div>
+          <h1>你已经打到关键分</h1>
+          <p class="reply">关键分没拿下确实很遗憾<br />但你能把比赛打到这里<br />前面一定做对了很多</p>
+          <div class="next"><small>下一次</small><p>先完成一次挥拍</p></div>
+          <button class="primary" data-screen="home">回到首页</button>
+        </div>
+      </article>
+    </section>
+  </main>
+  <script>
+    const openScreen = id => {
+      document.querySelectorAll('.screen').forEach(node => node.classList.toggle('active', node.id === id))
+      document.querySelectorAll('.tabs button').forEach(node => node.classList.toggle('active', node.dataset.screen === id))
+    }
+    document.addEventListener('click', event => {
+      const target = event.target.closest('[data-screen]')
+      if (target) openScreen(target.dataset.screen)
+    })
+  </script>
+</body>
+</html>

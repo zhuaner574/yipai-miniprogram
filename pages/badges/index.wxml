@@ -1,0 +1,54 @@
+<scroll-view
+  scroll-y
+  class="badges-scroll"
+  scroll-into-view="{{scrollTarget}}"
+  scroll-with-animation
+>
+  <view class="page badges-page">
+    <view id="achievement-section" class="badge-section-anchor">
+      <text class="eyebrow">MY ACHIEVEMENTS</text>
+      <text class="page-title">每一枚勋章
+都是你打过的路</text>
+      <view class="all-section-header">
+        <view>
+          <text class="all-section-title">长期成就</text>
+          <text class="all-section-note">点亮后会一直保留</text>
+        </view>
+        <text class="all-section-count">{{achievementUnlockedCount}} / {{achievementBadges.length}}</text>
+      </view>
+      <view class="badge-grid">
+        <view wx:for="{{achievementBadges}}" wx:key="id" class="badge-card {{item.unlocked ? 'unlocked' : 'locked'}}">
+          <text class="badge-icon">{{item.unlocked ? item.icon : '？'}}</text>
+          <text class="badge-name">{{item.unlocked || !item.hidden ? item.name : '隐藏勋章'}}</text>
+          <text class="badge-desc">{{item.unlocked || !item.hidden ? item.description : '某一天 它会悄悄出现'}}</text>
+          <text wx:if="{{!item.unlocked && !item.hidden}}" class="badge-progress-text">{{item.progress.text}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view id="monthly-section" class="all-monthly-section badge-section-anchor">
+      <view class="all-section-header">
+        <view>
+          <text class="all-section-title">本月挑战</text>
+          <text class="all-section-note">{{monthlyBadgeLabel}} 每月重新开始</text>
+        </view>
+        <text class="all-section-count">{{monthlyUnlockedCount}} / {{monthlyBadges.length}}</text>
+      </view>
+      <view class="monthly-badge-list">
+        <view wx:for="{{monthlyBadges}}" wx:key="id" class="monthly-badge-card card {{item.unlocked ? 'unlocked' : ''}}">
+          <view class="monthly-badge-top">
+            <text class="monthly-badge-icon">{{item.icon}}</text>
+            <view class="monthly-badge-copy">
+              <text class="badge-name">{{item.name}}</text>
+              <text class="badge-desc">{{item.description}}</text>
+            </view>
+            <text class="monthly-badge-state">{{item.unlocked ? '已点亮' : item.progress.text}}</text>
+          </view>
+          <view class="monthly-progress-track">
+            <view class="monthly-progress-fill" style="width: {{item.progress.percent}}%;"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

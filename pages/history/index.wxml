@@ -1,0 +1,68 @@
+<view class="page history-page">
+  <text class="eyebrow">MY TENNIS STORY</text>
+  <text class="page-title">你的网球故事
+正在一拍一拍发生</text>
+
+  <view wx:if="{{sessions.length}}" class="timeline">
+    <view
+      wx:for="{{sessions}}"
+      wx:key="id"
+      class="timeline-item"
+      data-id="{{item.id}}"
+      bindtap="toggleSession"
+    >
+      <view class="timeline-rail">
+        <view class="timeline-dot {{item.type === 'match' ? 'match' : ''}}"></view>
+        <view class="timeline-line"></view>
+      </view>
+
+      <view class="story-card card">
+        <view class="story-header">
+          <view>
+            <text class="story-date">{{item.displayDate}}</text>
+            <text class="story-weekday">{{item.weekday}}</text>
+          </view>
+          <view class="story-side">
+            <image class="story-mood" src="{{item.moodImage}}" mode="aspectFit"></image>
+            <view class="story-tag">{{item.typeLabel}}</view>
+          </view>
+        </view>
+
+        <view class="story-meta">
+          <text>{{item.durationLabel}}</text>
+          <text>·</text>
+          <text>{{item.moodLabel}}</text>
+          <text wx:if="{{item.issue}}">· {{item.issue}}</text>
+        </view>
+
+        <text class="story-diary {{expandedId === item.id ? 'expanded' : ''}}">
+          {{item.diary || '这一次没有写日记，但它依然是成长的一部分。'}}
+        </text>
+
+        <view wx:if="{{item.type === 'match'}}" class="match-strip">
+          <text>{{item.matchLevel ? item.matchLevel + '级' : '比赛'}}</text>
+          <text>{{item.matchSummary}}</text>
+        </view>
+
+        <view wx:if="{{expandedId === item.id && item.reply}}" class="reply-memory">
+          <text class="reply-memory-label">那天，拍拍对你说</text>
+          <text class="reply-memory-text">{{item.reply.message}}</text>
+        </view>
+
+        <view wx:if="{{expandedId === item.id}}" class="story-actions">
+          <button class="story-action edit" data-id="{{item.id}}" catchtap="editSession">修改记录</button>
+          <button class="story-action delete" data-id="{{item.id}}" catchtap="deleteSession">删除记录</button>
+        </view>
+
+        <text class="expand-hint">{{expandedId === item.id ? '收起' : '展开这一天'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="history-empty">
+    <image class="paipai paipai-empty" src="/assets/paipai.png" mode="aspectFit"></image>
+    <text class="empty-title">故事还没有开始</text>
+    <text class="empty-desc">下一次离开球场时，来这里留下第一篇吧。</text>
+    <button class="secondary-button" bindtap="goRecord">记录第一拍</button>
+  </view>
+</view>

@@ -1,0 +1,45 @@
+.privacy-page {
+  background:
+    radial-gradient(circle at 92% 2%, rgba(226, 247, 111, 0.4), transparent 24%),
+    #f7f5ec;
+}
+
+.privacy-card {
+  margin-top: 28rpx;
+  padding: 30rpx;
+}
+
+.privacy-title,
+.privacy-copy,
+.privacy-body,
+.privacy-contact {
+  display: block;
+}
+
+.privacy-title {
+  margin-bottom: 18rpx;
+  font-size: 30rpx;
+  font-weight: 760;
+}
+
+.privacy-copy,
+.privacy-body {
+  color: #5f7068;
+  font-size: 25rpx;
+  line-height: 1.75;
+}
+
+.privacy-copy::before {
+  content: "·";
+  margin-right: 12rpx;
+  color: #99b927;
+  font-weight: 800;
+}
+
+.privacy-contact {
+  margin-top: 34rpx;
+  color: #7c8982;
+  font-size: 22rpx;
+  line-height: 1.6;
+  text-align: center;
+}

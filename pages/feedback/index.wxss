@@ -1,0 +1,45 @@
+.feedback-page {
+  padding-bottom: 80rpx;
+  background:
+    radial-gradient(circle at 88% 2%, rgba(226, 247, 111, 0.42), transparent 24%),
+    #f7f5ec;
+}
+
+.paipai-feedback {
+  width: 150rpx;
+  height: 150rpx;
+  margin-bottom: 28rpx;
+}
+
+.option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.option-row {
+  min-height: 94rpx;
+  padding: 0 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2rpx solid rgba(25, 55, 47, 0.08);
+  border-radius: 24rpx;
+  background: #fffdf8;
+}
+
+.option-row.active {
+  border-color: #19372f;
+  background: #e2f76f;
+  font-weight: 700;
+}
+
+.optional {
+  color: #98a29d;
+  font-size: 21rpx;
+  font-weight: 500;
+}
+
+.feedback-submit {
+  margin-top: 46rpx;
+}

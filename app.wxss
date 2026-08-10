@@ -1,0 +1,257 @@
+page {
+  min-height: 100%;
+  background: #f7f5ec;
+  color: #19372f;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+  font-size: 28rpx;
+}
+
+view,
+text,
+button,
+input,
+textarea,
+picker {
+  box-sizing: border-box;
+}
+
+button::after {
+  border: none;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 28rpx 28rpx 180rpx;
+}
+
+.eyebrow {
+  display: block;
+  color: #718078;
+  font-size: 24rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+}
+
+.page-title {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 54rpx;
+  line-height: 1.16;
+  font-weight: 800;
+  letter-spacing: -2rpx;
+  white-space: pre-line;
+}
+
+.section {
+  margin-top: 38rpx;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 760;
+}
+
+.section-link {
+  color: #65756d;
+  font-size: 24rpx;
+}
+
+.card {
+  background: #fffdf8;
+  border: 2rpx solid rgba(25, 55, 47, 0.06);
+  border-radius: 32rpx;
+  box-shadow: 0 14rpx 34rpx rgba(34, 54, 46, 0.06);
+}
+
+.primary-button {
+  width: 100%;
+  min-height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28rpx;
+  background: #19372f;
+  color: #ffffff;
+  font-size: 30rpx;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.secondary-button {
+  width: 100%;
+  min-height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28rpx;
+  background: #e2f76f;
+  color: #19372f;
+  font-size: 29rpx;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ghost-button {
+  width: 100%;
+  min-height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid rgba(25, 55, 47, 0.12);
+  border-radius: 26rpx;
+  background: transparent;
+  color: #19372f;
+  font-size: 28rpx;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.chip {
+  min-height: 74rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 26rpx;
+  border: 2rpx solid rgba(25, 55, 47, 0.09);
+  border-radius: 999rpx;
+  background: #fffdf8;
+  color: #52645c;
+  font-size: 26rpx;
+}
+
+.chip.active {
+  border-color: #19372f;
+  background: #e2f76f;
+  color: #19372f;
+  font-weight: 700;
+}
+
+.field-label {
+  display: block;
+  margin: 30rpx 0 16rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.field-hint {
+  margin-top: 10rpx;
+  color: #849089;
+  font-size: 23rpx;
+  line-height: 1.5;
+}
+
+.input-shell {
+  width: 100%;
+  min-height: 92rpx;
+  padding: 0 28rpx;
+  display: flex;
+  align-items: center;
+  border: 2rpx solid rgba(25, 55, 47, 0.08);
+  border-radius: 24rpx;
+  background: #fffdf8;
+}
+
+.textarea-shell {
+  width: 100%;
+  min-height: 240rpx;
+  padding: 26rpx 28rpx;
+  border: 2rpx solid rgba(25, 55, 47, 0.08);
+  border-radius: 26rpx;
+  background: #fffdf8;
+  line-height: 1.65;
+}
+
+.muted {
+  color: #78877f;
+}
+
+.tennis-ball {
+  position: relative;
+  width: 94rpx;
+  height: 94rpx;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #e2f76f;
+  box-shadow: inset -8rpx -10rpx 0 rgba(108, 132, 40, 0.12);
+}
+
+.tennis-ball::before,
+.tennis-ball::after {
+  content: "";
+  position: absolute;
+  width: 78rpx;
+  height: 116rpx;
+  top: -13rpx;
+  border: 5rpx solid rgba(255, 255, 255, 0.88);
+  border-radius: 50%;
+}
+
+.tennis-ball::before {
+  left: -56rpx;
+}
+
+.tennis-ball::after {
+  right: -56rpx;
+}
+
+.paipai {
+  display: block;
+  transform-origin: 50% 82%;
+  animation: paipai-float 3.2s ease-in-out infinite;
+}
+
+.paipai-celebrate {
+  animation: paipai-celebrate 900ms cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    paipai-float 3.2s ease-in-out 900ms infinite;
+}
+
+@keyframes paipai-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-10rpx) rotate(1deg);
+  }
+}
+
+@keyframes paipai-celebrate {
+  0% {
+    opacity: 0;
+    transform: translateY(50rpx) scale(0.72) rotate(-8deg);
+  }
+  58% {
+    opacity: 1;
+    transform: translateY(-12rpx) scale(1.08) rotate(4deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0);
+  }
+}
+
+@keyframes sparkle-pop {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.72) rotate(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(18deg);
+  }
+}

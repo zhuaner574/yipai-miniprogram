@@ -1,0 +1,213 @@
+<view class="onboarding">
+  <view class="brand-row">
+    <view class="mini-ball"></view>
+    <text>一拍一拍</text>
+  </view>
+
+  <view class="progress">
+    <view class="progress-item {{step >= 0 ? 'active' : ''}}"></view>
+    <view class="progress-item {{step >= 1 ? 'active' : ''}}"></view>
+    <view class="progress-item {{step >= 2 ? 'active' : ''}}"></view>
+    <view class="progress-item {{step >= 3 ? 'active' : ''}}"></view>
+    <view class="progress-item {{step >= 4 ? 'active' : ''}}"></view>
+  </view>
+
+  <view wx:if="{{step === 0}}" class="step-panel">
+    <view class="intro-hero">
+      <image class="paipai intro-paipai" src="/assets/paipai.png" mode="aspectFit"></image>
+      <text class="hello">嗨 我是你的网球搭子 拍拍</text>
+      <text class="headline">打得好不好 都值得记下来</text>
+      <text class="intro-comfort">你失落的时候 拍拍会来拍拍你</text>
+    </view>
+
+    <view class="intro-features">
+      <view class="intro-feature">
+        <text class="intro-feature-mark">●</text>
+        <view>
+          <text class="intro-feature-title">上场就记一拍</text>
+          <text class="intro-feature-desc">训练 比赛 心情 几步记完</text>
+        </view>
+      </view>
+      <view class="intro-feature">
+        <text class="intro-feature-mark">●</text>
+        <view>
+          <text class="intro-feature-title">状态有人懂</text>
+          <text class="intro-feature-desc">尽兴 紧张 失落 都会收到回应</text>
+        </view>
+      </view>
+      <view class="intro-feature">
+        <text class="intro-feature-mark">●</text>
+        <view>
+          <text class="intro-feature-title">进步看得见</text>
+          <text class="intro-feature-desc">每次上场 都会留在你的网球日历</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{step === 1}}" class="step-panel">
+    <text class="hello">嗨 球友 👋</text>
+
+    <text class="field-label">我可以怎么称呼你？</text>
+    <view class="input-shell">
+      <input
+        value="{{form.nickname}}"
+        placeholder="比如 小卓"
+        maxlength="12"
+        bindinput="onNameInput"
+      />
+    </view>
+
+    <view class="welcome-card">
+      <image class="paipai paipai-onboarding" src="/assets/paipai.png" mode="aspectFit"></image>
+      <view class="welcome-copy">
+        <text class="welcome-title">你好 我是拍拍</text>
+        <text class="welcome-desc">以后一起记下每次上场</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{step === 2}}" class="step-panel">
+    <text class="hello">先认识一下现在的你</text>
+    <text class="headline">不用非常准确
+凭感觉选就好</text>
+
+    <text class="field-label">你觉得自己目前在哪个阶段？</text>
+    <view class="chip-row">
+      <view
+        wx:for="{{levels}}"
+        wx:key="*this"
+        class="chip {{form.level === item ? 'active' : ''}}"
+        data-value="{{item}}"
+        bindtap="chooseLevel"
+      >{{item}}</view>
+    </view>
+
+    <text class="field-label">你接触网球多久了？</text>
+    <view class="option-list">
+      <view
+        wx:for="{{experiences}}"
+        wx:key="*this"
+        class="option-card {{form.experience === item ? 'active' : ''}}"
+        data-value="{{item}}"
+        bindtap="chooseExperience"
+      >
+        <text>{{item}}</text>
+        <text class="check">{{form.experience === item ? '✓' : ''}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{step === 3}}" class="step-panel">
+    <text class="hello">最后一个问题</text>
+    <text class="headline">你最迫在眉睫的目标是什么</text>
+    <text class="subhead">可以多选 之后随时能改</text>
+
+    <view class="goal-grid">
+      <view
+        wx:for="{{goalOptions}}"
+        wx:key="name"
+        class="goal-card {{item.selected ? 'active' : ''}}"
+        data-value="{{item.name}}"
+        bindtap="toggleGoal"
+      >
+        <text class="goal-dot"></text>
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{form.goals.indexOf('其他') >= 0}}" class="goal-other input-shell">
+      <input
+        value="{{form.goalOther}}"
+        placeholder="写下你现在最想解决的问题"
+        maxlength="30"
+        bindinput="onGoalOtherInput"
+      />
+    </view>
+
+    <text class="field-label">当你不开心时，希望我怎么回应？</text>
+    <view class="tone-list">
+      <view
+        wx:for="{{tones}}"
+        wx:key="id"
+        class="tone-card {{form.tone === item.id ? 'active' : ''}}"
+        data-value="{{item.id}}"
+        bindtap="chooseTone"
+      >
+        <view>
+          <text class="tone-title">{{item.title}}</text>
+          <text class="tone-desc">{{item.desc}}</text>
+        </view>
+        <text class="tone-check">{{form.tone === item.id ? '✓' : ''}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="step-panel">
+    <view class="portrait-header-row">
+      <text class="hello">{{portraitOnly ? '我的网球画像' : '再了解你一点'}}</text>
+      <button class="later-button" bindtap="skipOptional">之后再选 →</button>
+    </view>
+    <text class="headline">{{portraitOnly ? '补充你的打球习惯' : '想答多少都可以'}}</text>
+    <text class="subhead">之后随时能改</text>
+
+    <view class="portrait-completion">
+      <view class="portrait-completion-track">
+        <view class="portrait-completion-fill" style="width: {{portraitAnswered / portraitTotal * 100}}%;"></view>
+      </view>
+      <text>已回答 {{portraitAnswered}} / {{portraitTotal}}</text>
+    </view>
+
+    <view
+      wx:for="{{portraitQuestions}}"
+      wx:key="id"
+      wx:for-item="question"
+      wx:for-index="questionIndex"
+      class="portrait-question"
+    >
+      <view class="portrait-question-head">
+        <text class="portrait-number">{{questionIndex + 1}}</text>
+        <view class="portrait-question-copy">
+          <text class="portrait-title">{{question.title}}</text>
+          <text wx:if="{{question.hint}}" class="portrait-hint">{{question.hint}}</text>
+        </view>
+      </view>
+
+      <view class="portrait-options">
+        <view
+          wx:for="{{question.options}}"
+          wx:key="label"
+          wx:for-item="option"
+          wx:for-index="optionIndex"
+          class="portrait-option {{option.selected ? 'active' : ''}}"
+          data-question-index="{{questionIndex}}"
+          data-option-index="{{optionIndex}}"
+          bindtap="choosePortraitOption"
+        >
+          <text>{{option.label}}</text>
+          <view class="portrait-check">{{option.selected ? '✓' : ''}}</view>
+        </view>
+      </view>
+
+      <view wx:if="{{question.otherSelected}}" class="portrait-other">
+        <input
+          value="{{question.otherValue}}"
+          placeholder="写下更符合你的答案"
+          maxlength="30"
+          data-question-index="{{questionIndex}}"
+          bindinput="onPortraitOtherInput"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-actions">
+    <button wx:if="{{step > 0}}" class="back-button" bindtap="previousStep">上一步</button>
+    <button wx:if="{{step < 4 && !goalsOnly}}" class="primary-button next" bindtap="nextStep">
+      {{step === 0 ? '和拍拍一起开始' : '继续'}}
+    </button>
+    <button wx:else class="primary-button next" bindtap="complete">
+      {{portraitOnly ? '保存我的画像' : (goalsOnly ? '保存小目标' : (editMode ? '保存修改' : '开启我的网球篇章'))}}
+    </button>
+  </view>
+</view>

@@ -1,0 +1,69 @@
+<view class="page calendar-page">
+  <text class="eyebrow">COURT CALENDAR</text>
+  <text class="page-title">每个亮起的日子
+都算数</text>
+
+  <view class="month-switcher">
+    <button bindtap="previousMonth">‹</button>
+    <text>{{monthLabel}}</text>
+    <button bindtap="nextMonth">›</button>
+  </view>
+
+  <view class="calendar-shell card">
+    <view class="month-summary">
+      <view>
+        <text class="summary-value">{{stats.count}}</text>
+        <text class="summary-unit">次打球</text>
+      </view>
+      <view>
+        <text class="summary-value">{{stats.hours}}</text>
+        <text class="summary-unit">小时</text>
+      </view>
+    </view>
+
+    <view class="week-row">
+      <text wx:for="{{weekLabels}}" wx:key="*this">{{item}}</text>
+    </view>
+    <view class="calendar-grid">
+      <view
+        wx:for="{{cells}}"
+        wx:key="date"
+        class="calendar-cell {{item.monthRelation}} {{item.active ? 'active' : ''}} {{item.isToday ? 'today' : ''}} {{selectedDate === item.date ? 'selected' : ''}}"
+        data-date="{{item.date}}"
+        bindtap="selectDate"
+      >
+        <view class="day-core">
+          <text>{{item.day}}</text>
+          <view wx:if="{{item.active}}" class="day-seam"></view>
+        </view>
+        <text wx:if="{{item.active && item.count > 1}}" class="count-mark">{{item.count}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section selected-section">
+    <text class="section-title">{{selectedLabel || '点一个日期看看'}}</text>
+    <view wx:if="{{selectedSessions.length}}" class="day-list">
+      <view wx:for="{{selectedSessions}}" wx:key="id" class="day-session card">
+        <view class="session-dot"></view>
+        <image class="day-mood" src="{{item.moodImage}}" mode="aspectFit"></image>
+        <view class="day-main">
+          <view class="day-title-row">
+            <text class="day-title">{{item.typeLabel}}</text>
+            <text class="day-duration">{{item.durationLabel}}</text>
+          </view>
+          <text class="day-diary">{{item.diary || '这一天没有写日记。'}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:elif="{{selectedDate}}" class="no-session">
+      <text>这一天没有打球记录。</text>
+      <button bindtap="goRecordForDate">{{isSelectedToday ? '记录今天' : '补记这一拍'}}</button>
+    </view>
+    <view wx:else class="calendar-tip">
+      浅绿色的日期，就是你和网球见面的日子。
+    </view>
+  </view>
+
+  <button class="secondary-button calendar-add" bindtap="goRecord">＋ 记录新的打球日</button>
+</view>
